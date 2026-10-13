@@ -1,0 +1,380 @@
+<title>Vamos Sair?</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=VT323&display=swap">
+<style>
+/* Layout: um celular rodando um sistema operacional velho. O convite é um programa (convite.exe), recusar gera janelas de erro. Visual único de propósito, sem tema claro/escuro. */
+:root {
+  --desk: #2f7d6d;
+  --desk-dot: #286c5e;
+  --chrome: #c9c3b6;
+  --hi: #fbf8ef;
+  --lo: #7d776b;
+  --edge: #1b1a17;
+  --title: #23206e;
+  --title-2: #6b4fd8;
+  --paper: #fffdf4;
+  --ink: #1b1a17;
+  --hot: #e8412b;
+  --pixel: "Pixelify Sans", "Courier New", monospace;
+  --term: "VT323", "Courier New", monospace;
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  background: #14110d;
+  color: var(--ink);
+  font-family: var(--term);
+  display: grid;
+  place-items: center;
+  padding-inline: 16px;
+  overflow: hidden;
+}
+.phone {
+  position: relative;
+  width: min(390px, 100%);
+  height: min(800px, calc(100% - 32px));
+  border-radius: 48px;
+  padding: 14px;
+  background: linear-gradient(160deg, #e9e3d3, #b9b2a2);
+  box-shadow: inset 0 0 0 2px #fff8, 0 30px 80px rgba(0,0,0,.6);
+}
+.screen {
+  position: relative;
+  height: 100%;
+  border-radius: 34px;
+  overflow: hidden;
+  background-color: var(--desk);
+  background-image: radial-gradient(var(--desk-dot) 1px, transparent 1.4px);
+  background-size: 6px 6px;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid var(--edge);
+}
+@media (max-width: 520px) {
+  body { padding-inline: 0; }
+  .phone { width: 100%; height: 100%; border-radius: 0; padding: 0; box-shadow: none; }
+  .screen { border-radius: 0; border: 0; }
+}
+
+/* bevel padrão */
+.bevel { background: var(--chrome); box-shadow: inset -2px -2px var(--edge), inset 2px 2px var(--hi), inset -4px -4px var(--lo); }
+.sunk { box-shadow: inset 2px 2px var(--lo), inset -2px -2px var(--hi), inset 4px 4px var(--edge); }
+
+/* ícones da área de trabalho */
+.icons { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 22px 14px 0; }
+.ico { background: none; border: 0; cursor: pointer; display: grid; justify-items: center; gap: 2px; color: var(--hi); font: 18px/1 var(--term); text-shadow: 1px 1px 0 var(--edge); padding: 4px 0; }
+.ico span { font-size: 30px; filter: drop-shadow(2px 2px 0 rgba(0,0,0,.35)); }
+.ico:focus-visible span, .ico:active span { filter: drop-shadow(2px 2px 0 rgba(0,0,0,.35)) brightness(.7) sepia(1) hue-rotate(190deg); }
+
+.stage { position: relative; z-index: 3; flex: 1; display: grid; place-items: center; padding: 10px 14px 14px; }
+
+/* janela */
+.win { width: 100%; padding: 4px; animation: boot .25s steps(4) both; }
+@keyframes boot { from { clip-path: inset(0 0 100% 0); } }
+.bar {
+  display: flex; align-items: center; gap: 6px;
+  background: linear-gradient(90deg, var(--title), var(--title-2));
+  color: var(--hi); padding: 4px 4px 4px 8px;
+  font: 700 15px var(--pixel); letter-spacing: .02em;
+}
+.bar .t { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .x { width: 24px; height: 22px; display: grid; place-items: center; font: 700 15px var(--pixel); color: var(--ink); cursor: pointer; border: 0; }
+.menu { display: flex; gap: 14px; padding: 3px 8px 4px; font-size: 18px; color: #3b382f; }
+.menu u { text-decoration-thickness: 1px; }
+.body { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+.lead { display: flex; gap: 12px; align-items: center; }
+.emo { font-size: 64px; line-height: 1; flex: none; user-select: none; }
+.emo.jit { animation: jit .9s steps(2) infinite; }
+@keyframes jit { 50% { transform: translate(1px, -2px) rotate(-4deg); } }
+h1 { font: 700 26px/1.02 var(--pixel); margin: 0; text-wrap: balance; }
+.sub { margin: 0; font-size: 20px; line-height: 1.05; color: #3b382f; }
+
+.btns { position: relative; display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; min-height: 42px; }
+button { font: inherit; cursor: pointer; border: 0; color: var(--ink); }
+button:focus-visible, input:focus-visible { outline: 2px dotted var(--ink); outline-offset: -7px; }
+.btn { font: 700 17px var(--pixel); padding: 10px 18px; min-width: 92px; transition: font-size .2s, padding .2s; }
+.btn:active, .btn.on { box-shadow: inset 2px 2px var(--edge), inset -2px -2px var(--hi), inset 4px 4px var(--lo); padding-top: 11px; padding-bottom: 9px; }
+.btn.def { outline: 2px solid var(--edge); outline-offset: 0; }
+.btn[disabled] { color: var(--lo); text-shadow: 1px 1px var(--hi); cursor: not-allowed; }
+#no { position: absolute; z-index: 20; transition: left .12s steps(3), top .12s steps(3); }
+
+.fields { display: grid; gap: 10px; }
+.fields label { font-size: 19px; display: grid; gap: 4px; }
+.fields input { font: 22px var(--term); color: var(--ink); background: var(--paper); border: 0; padding: 8px 10px; width: 100%; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.opt { display: grid; gap: 2px; justify-items: center; padding: 8px 2px 6px; font-size: 17px; line-height: 1; }
+.opt span { font-size: 26px; }
+.opt[aria-pressed="true"] { background: #f4e27a; box-shadow: inset 2px 2px var(--edge), inset -2px -2px var(--hi), inset 4px 4px var(--lo); }
+
+.prog { height: 26px; padding: 4px; }
+.prog i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, var(--title) 0 12px, transparent 12px 15px); transition: width .7s steps(12); }
+
+.receipt { background: var(--paper); padding: 12px 14px; font-size: 20px; line-height: 1.1; }
+.receipt .ln { border-top: 2px dashed var(--lo); margin: 8px 0; }
+.receipt .row { display: flex; justify-content: space-between; gap: 10px; }
+.receipt .row span:last-child { text-align: right; min-width: 0; }
+.receipt .c { text-align: center; }
+.link { background: none; text-decoration: underline; font-size: 18px; align-self: center; padding: 2px; }
+a.btn { text-decoration: none; color: var(--ink); text-align: center; }
+
+/* janelas de erro */
+.err { position: absolute; z-index: 25; width: 250px; padding: 4px; animation: boot .2s steps(3) both; }
+.err .bar { background: linear-gradient(90deg, #7a1608, var(--hot)); }
+.err .body { padding: 10px; gap: 10px; }
+.err .lead .emo { font-size: 36px; }
+.err p { margin: 0; font-size: 19px; line-height: 1; }
+
+/* barra de tarefas */
+.task { position: relative; z-index: 4; display: flex; align-items: center; gap: 6px; padding: 5px 6px; padding-bottom: calc(5px + env(safe-area-inset-bottom, 0px)); }
+.start { font: 700 15px var(--pixel); padding: 5px 10px; display: flex; gap: 5px; align-items: center; }
+.tab { flex: 1; min-width: 0; font-size: 17px; padding: 6px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.clock { font-size: 18px; padding: 6px 8px; font-variant-numeric: tabular-nums; }
+
+.toast { position: absolute; z-index: 40; left: 12px; right: 12px; bottom: 52px; padding: 4px; }
+.toast .body { padding: 8px 10px; font-size: 19px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .win, .err, .emo.jit { animation: none; }
+  #no, .prog i { transition: none; }
+}
+</style>
+
+<div class="phone">
+  <div class="screen" id="screen">
+    <nav class="icons" aria-label="Área de trabalho">
+      <button class="ico" data-msg="desculpas.txt está vazio. que bom 😊"><span>🗑️</span>desculpas</button>
+      <button class="ico" data-msg="pasta 'planos' tem 1 item: sair comigo."><span>📁</span>planos</button>
+      <button class="ico" data-msg="a agenda tá livre só esperando você 📅"><span>🗓️</span>agenda</button>
+      <button class="ico" data-msg="rolê_final_v2_AGORAVAI.doc já está em uso."><span>💾</span>rolê_v2</button>
+    </nav>
+    <main class="stage" id="stage"></main>
+    <footer class="task bevel">
+      <button class="start bevel" id="start">🍟 iniciar</button>
+      <span class="tab sunk" id="tab">convite.exe</span>
+      <span class="clock sunk" id="clock">20:00</span>
+    </footer>
+  </div>
+</div>
+
+<script>
+// ===== edita aqui =====
+const CONFIG = {
+  de: "Henrique",          // quem tá chamando
+  whatsapp: "5527995754755"          // seu número com DDI, só dígitos (ex: 5511999999999). vazio = abre o WhatsApp sem destinatário
+};
+// ======================
+
+const $ = s => document.querySelector(s);
+const stage = $("#stage"), screen = $("#screen");
+const state = { date: "", time: "", role: [], vibe: "" };
+
+const ERRORS = [
+  ["🙈", "ops!", "esse botão tá meio tímido hoje."],
+  ["🥹", "tem certeza?", "o computador ficou tristinho. pensa com carinho?"],
+  ["🫠", "eita", "o botão 'não' derreteu de vergonha."],
+  ["🐶", "hmm…", "olha essa carinha. vai mesmo dizer não?"],
+  ["🌷", "psiu", "prometo que vai ser divertido!"],
+  ["🐌", "procurando…", "motivos pra dizer não: 0 resultados."],
+  ["💌", "lembrete", "o 'bora' tá logo ali, esperando você."],
+  ["🧸", "última tentativa", "aceita vai, eu levo os lanchinhos."]
+];
+
+function win(title, html, emoOnly) {
+  stage.innerHTML = `
+    <section class="win bevel" role="dialog" aria-label="${title}">
+      <div class="bar"><span class="t">${title}</span><button class="x bevel" id="x" aria-label="Fechar">×</button></div>
+      <div class="menu"><span><u>A</u>rquivo</span><span><u>E</u>ditar</span><span><u>D</u>esculpas</span></div>
+      <div class="body">${html}</div>
+    </section>`;
+  $("#tab").textContent = title;
+  $("#x").onclick = () => toast("🥺 fecha não, o convite ainda nem acabou!");
+}
+
+// carregamento fake entre telas
+function loading(msg, next) {
+  win("aguarde…", `
+    <div class="lead"><div class="emo jit">⏳</div><h1 style="font-size:20px">${msg}</h1></div>
+    <div class="prog sunk"><i id="pg"></i></div>`);
+  requestAnimationFrame(() => requestAnimationFrame(() => $("#pg").style.width = "100%"));
+  setTimeout(next, 900);
+}
+
+// --- 1. o convite
+function s1() {
+  let tries = 0;
+  win("convite.exe", `
+    <div class="lead"><div class="emo jit" id="e1">🥺</div><h1>vamos sair qualquer dia desses?</h1></div>
+    <p class="sub">${CONFIG.de} tá te chamando. sem pressão… mas ia ser muito <span style="white-space:nowrap">legal 👉👈</span></p>
+    <div class="btns" id="btns">
+      <button class="btn bevel def" id="yes">bora</button>
+      <button class="btn bevel" id="no">não</button>
+    </div>`);
+  const no = $("#no"), yes = $("#yes"), btns = $("#btns");
+  requestAnimationFrame(() => {
+    yes.style.marginRight = (no.offsetWidth + 10) + "px";
+    const b = btns.getBoundingClientRect(), y = yes.getBoundingClientRect();
+    no.style.left = (y.right - b.left + 10) + "px";
+    no.style.top = (y.top - b.top) + "px";
+  });
+  const flee = e => {
+    if (e) e.preventDefault();
+    tries++;
+    const [emo] = ERRORS[Math.min(tries - 1, ERRORS.length - 1)];
+    $("#e1").textContent = emo;
+    errorPopup(ERRORS[(tries - 1) % ERRORS.length]);
+    const sr = screen.getBoundingClientRect(), br = btns.getBoundingClientRect();
+    const w = no.offsetWidth, h = no.offsetHeight;
+    const x = 12 + Math.random() * (sr.width - w - 24);
+    const yy = 80 + Math.random() * (sr.height - h - 150);
+    no.style.left = (x - (br.left - sr.left)) + "px";
+    no.style.top = (yy - (br.top - sr.top)) + "px";
+    no.style.fontSize = Math.max(9, 17 - tries * 1.2) + "px";
+    yes.style.fontSize = Math.min(17 + tries * 2, 30) + "px";
+    yes.style.padding = `${10 + tries}px ${18 + tries * 2}px`;
+    if (tries === 5) yes.textContent = "bora 🥹";
+  };
+  no.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") flee(e); });
+  no.addEventListener("pointerdown", flee);
+  no.addEventListener("click", e => { if (e.detail === 0) flee(e); else e.preventDefault(); });
+  yes.addEventListener("click", () => { clearErrors(); loading("salvando a melhor decisão da sua semana…", s2); });
+}
+
+function errorPopup([emo, title, msg]) {
+  const all = screen.querySelectorAll(".err");
+  if (all.length >= 5) all[0].remove();
+  const sr = screen.getBoundingClientRect();
+  const el = document.createElement("section");
+  el.className = "err bevel";
+  el.setAttribute("role", "alertdialog");
+  el.innerHTML = `
+    <div class="bar"><span class="t">${title}</span><button class="x bevel" aria-label="Fechar">×</button></div>
+    <div class="body"><div class="lead"><div class="emo">${emo}</div><p>${msg}</p></div>
+    <div class="btns"><button class="btn bevel def">ok</button></div></div>`;
+  el.style.left = Math.max(8, Math.random() * (sr.width - 260)) + "px";
+  el.style.top = (60 + Math.random() * (sr.height - 280)) + "px";
+  el.querySelectorAll("button").forEach(b => b.onclick = () => el.remove());
+  screen.appendChild(el);
+}
+function clearErrors() { screen.querySelectorAll(".err").forEach(e => e.remove()); }
+
+// --- 2. comemoração
+function s2() {
+  win("sucesso.exe", `
+    <div class="lead"><div class="emo jit">🥳</div><h1>eba! você disse sim!</h1></div>
+    <p class="sub">você acabou de deixar o dia de alguém muito melhor.</p>
+    <div class="btns"><button class="btn bevel def" id="go">próximo ›</button></div>`);
+  $("#go").onclick = s3;
+}
+
+// --- 3. quando
+function s3() {
+  const today = new Date(Date.now() - new Date().getTimezoneOffset() * 6e4).toISOString().slice(0, 10);
+  win("agenda.exe", `
+    <div class="lead"><div class="emo">📅</div><h1>quando você tá livre?</h1></div>
+    <p class="sub">escolhe o dia que for melhor pra você, eu me ajeito 😊</p>
+    <div class="fields">
+      <label for="d">dia:<input class="sunk" type="date" id="d" min="${today}" value="${state.date}"></label>
+      <label for="t">horário:<input class="sunk" type="time" id="t" value="${state.time || "20:00"}"></label>
+    </div>
+    <div class="btns"><button class="btn bevel def" id="go" disabled>confirmar</button></div>`);
+  const d = $("#d"), t = $("#t"), go = $("#go");
+  const check = () => { go.disabled = !(d.value && t.value); };
+  d.oninput = t.oninput = check; check();
+  go.onclick = () => { state.date = d.value; state.time = t.value; s4(); };
+}
+
+// --- 4. rolê
+const ROLES = [["🍕","pizza"],["🍔","hambúrguer"],["🍣","sushi"],["🍦","sorvete"],["🎬","cinema"],["☕","café"],["🎳","boliche"],["🍻","barzinho"],["🤷","você decide"]];
+function s4() {
+  win("cardapio.exe", `
+    <div class="lead"><div class="emo">🍽️</div><h1>o que tá afim?</h1></div>
+    <p class="sub">pode marcar mais de um, tudo vale!</p>
+    <div class="grid">${ROLES.map(([e, n]) => `<button class="opt bevel" aria-pressed="${state.role.includes(n)}" data-n="${n}"><span>${e}</span>${n}</button>`).join("")}</div>
+    <div class="btns"><button class="btn bevel def" id="go" disabled>boa!</button></div>`);
+  const go = $("#go");
+  const sync = () => { go.disabled = !state.role.length; };
+  stage.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    const n = b.dataset.n, on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", on);
+    state.role = on ? [...state.role, n] : state.role.filter(x => x !== n);
+    sync();
+  });
+  sync();
+  go.onclick = s5;
+}
+
+// --- 5. vibe
+const VIBES = [["😎","de boa"],["🕺","caótica"],["🛋️","preguiçosa"],["🗣️","fofoca pesada"],["🤓","papo cabeça"],["🍿","só comer"]];
+function s5() {
+  win("vibe.exe", `
+    <div class="lead"><div class="emo">🔮</div><h1>qual é a vibe?</h1></div>
+    <p class="sub">pra eu saber se levo energia ou só fome.</p>
+    <div class="grid">${VIBES.map(([e, n]) => `<button class="opt bevel" aria-pressed="${state.vibe === n}" data-n="${n}"><span>${e}</span>${n}</button>`).join("")}</div>
+    <div class="btns"><button class="btn bevel def" id="go" disabled>fechou</button></div>`);
+  const go = $("#go");
+  stage.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    stage.querySelectorAll(".opt").forEach(o => o.setAttribute("aria-pressed", o === b));
+    state.vibe = b.dataset.n; go.disabled = false;
+  });
+  go.disabled = !state.vibe;
+  go.onclick = () => loading("imprimindo comprovante…", s6);
+}
+
+// --- 6. comprovante
+function fmtDate(v) {
+  const [y, m, d] = v.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("pt-BR", { weekday: "short", day: "2-digit", month: "short" });
+}
+function summary() {
+  return `oii, aceitei o convite! 🥰\n📅 ${fmtDate(state.date)} às ${state.time}\n🍽️ ${state.role.join(", ")}\n✨ vibe: ${state.vibe}\nmal posso esperar 💛`;
+}
+function s6() {
+  const wa = `https://wa.me/${CONFIG.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(summary())}`;
+  const n = String(Math.floor(Math.random() * 9000) + 1000);
+  win("comprovante.txt", `
+    <div class="lead"><div class="emo jit">🥰</div><h1>tá marcado!</h1></div>
+    <div class="receipt sunk">
+      <div class="c">*** COMPROVANTE DE ROLÊ ***<br>nº ${n}</div>
+      <div class="ln"></div>
+      <div class="row"><span>quando</span><span>${fmtDate(state.date)} ${state.time}</span></div>
+      <div class="row"><span>rolê</span><span>${state.role.join(", ")}</span></div>
+      <div class="row"><span>vibe</span><span>${state.vibe}</span></div>
+      <div class="ln"></div>
+      <div class="row"><span>diversão</span><span>garantida</span></div>
+      <div class="row"><span>lanchinhos</span><span>inclusos</span></div>
+      <div class="c" style="margin-top:6px">obrigado por aceitar ♥</div>
+    </div>
+    <p class="sub">agora manda a confirmação pro ${CONFIG.de}:</p>
+    <div class="btns">
+      <button class="btn bevel" id="copy">copiar</button>
+      <a class="btn bevel def" href="${wa}" target="_blank" rel="noopener">whatsapp</a>
+    </div>
+    <button class="link" id="redo">quero refazer as escolhas</button>`);
+  $("#copy").onclick = async () => {
+    try { await navigator.clipboard.writeText(summary()); toast("📋 copiado. agora cola lá."); }
+    catch { toast("📸 não deu pra copiar. tira print."); }
+  };
+  $("#redo").onclick = () => { Object.assign(state, { date: "", time: "", role: [], vibe: "" }); s1(); };
+}
+
+function toast(msg) {
+  screen.querySelectorAll(".toast").forEach(t => t.remove());
+  const t = document.createElement("div");
+  t.className = "toast bevel";
+  t.innerHTML = `<div class="body sunk"></div>`;
+  t.firstChild.textContent = msg;
+  screen.appendChild(t); setTimeout(() => t.remove(), 2400);
+}
+
+document.querySelectorAll(".ico").forEach(b => b.onclick = () => toast(b.querySelector("span").textContent + " " + b.dataset.msg));
+$("#start").onclick = () => toast("🍟 menu iniciar: batata frita pra dividir.");
+
+const tick = () => { const d = new Date(); $("#clock").textContent = d.getHours() + ":" + String(d.getMinutes()).padStart(2, "0"); };
+tick(); setInterval(tick, 30000);
+s1();
+</script>
